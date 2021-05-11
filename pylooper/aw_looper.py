@@ -36,6 +36,9 @@ class Looper(audioworker.AudioWorker):
             self._chunk_ptr = (self._chunk_ptr + 1) % self._chunk_cnt
         return (data, pyaudio.paContinue)
 
+    def stop(self):
+        self._state = LOOPER_STOP
+
     def record(self):
         self._aud_buf = array.array('h')
         self._state = LOOPER_RECORD
