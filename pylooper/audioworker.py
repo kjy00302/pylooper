@@ -15,7 +15,12 @@ class AudioWorker:
             frames_per_buffer=bufsize,
             stream_callback=self.aw_callback
         )
-        self.chunk_latency = int((self.stream.get_input_latency() + self.stream.get_input_latency()) / bufsize)
+        self.chunk_latency = int(
+            self._samplerate * (
+                self.stream.get_input_latency()
+                + self.stream.get_input_latency()
+            ) / bufsize
+        )
 
     def aw_callback(self, in_data, frame_count, time_info, status_flags):
         raise NotImplementedError
