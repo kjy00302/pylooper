@@ -41,6 +41,8 @@ class Looper(audioworker.AudioWorker):
 
     def record(self):
         self._aud_buf = array.array('h')
+        self._chunk_cnt = 0
+        self._chunk_ptr = 0
         self._state = LOOPER_RECORD
 
     def overrec(self):
