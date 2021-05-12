@@ -21,6 +21,9 @@ class GUI(GUIBase):
             elif event.key == pygame.locals.K_ESCAPE:
                 self.gui_running = False
 
+    def gui_process(self):
+        pass
+
     def gui_draw(self, surface):
         surface.fill((255,255,255))
 
