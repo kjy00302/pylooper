@@ -17,23 +17,19 @@ class Looper(audioworker.AudioWorker):
         self._chunk_ptr = 0
 
     def aw_callback(self, in_data, frame_count, time_info, status_flags):
-        if self._state == LOOPER_STOP:
-            data = bytes(self._bufsize * 2)
-        elif self._state == LOOPER_RECORD:
-            self._aud_buf.frombytes(in_data)
-            self._chunk_cnt += 1
-            data = bytes(self._bufsize * 2)
-        elif self._state == LOOPER_PLAY:
+        if self._state & 2: # LOOPER_PLAY & LOOPER_OVERDUB
             offset = self._bufsize * self._chunk_ptr
+            if self._state == LOOPER_OVERDUB:
+                recoffset = self._bufsize * ((self._chunk_ptr - self.chunk_latency) % self._chunk_cnt)
+                mixsrc = self._aud_buf[recoffset:recoffset+self._bufsize].tobytes()
+                self._aud_buf[recoffset:recoffset+self._bufsize] = array.array('h', audioop.add(mixsrc,in_data,2))
             data = self._aud_buf[offset:offset+self._bufsize].tobytes()
             self._chunk_ptr = (self._chunk_ptr + 1) % self._chunk_cnt
-        elif self._state == LOOPER_OVERDUB:
-            offset = self._bufsize * self._chunk_ptr
-            recoffset = self._bufsize * ((self._chunk_ptr - self.chunk_latency) % self._chunk_cnt)
-            mixsrc = self._aud_buf[recoffset:recoffset+self._bufsize].tobytes()
-            self._aud_buf[recoffset:recoffset+self._bufsize] = array.array('h', audioop.add(mixsrc,in_data,2))
-            data = self._aud_buf[offset:offset+self._bufsize].tobytes()
-            self._chunk_ptr = (self._chunk_ptr + 1) % self._chunk_cnt
+        else: # LOOPER_STOP & LOOPER_RECORD
+            if self._state == LOOPER_RECORD:
+                self._aud_buf.frombytes(in_data)
+                self._chunk_cnt += 1
+            data = bytes(self._bufsize * 2)
         return (data, pyaudio.paContinue)
 
     def stop(self):
