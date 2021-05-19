@@ -14,6 +14,9 @@ class GUI(GUI):
     def cb_overdub(self):
         looper.overrec()
 
+    def cb_getposition(self):
+        return looper.getposition()
+
 if __name__ == "__main__":
     GUI.gui_init()
 

@@ -16,6 +16,7 @@ class Looper(audioworker.AudioWorker):
         self._chunk_cnt = 0
         self._chunk_ptr = 0
         self._rms = 0
+        self._is_empty = True
 
     def aw_callback(self, in_data, frame_count, time_info, status_flags):
         self._rms = self._rms * 0.7 + audioop.rms(in_data, 2)/32768 * 100 * 0.3
@@ -34,6 +35,7 @@ class Looper(audioworker.AudioWorker):
             if self._state == LOOPER_RECORD:
                 self._aud_buf.frombytes(in_data)
                 self._chunk_cnt += 1
+                self._is_empty = False
             data = bytes(self._bufsize * 2)
         return (data, pyaudio.paContinue)
 
@@ -42,6 +44,7 @@ class Looper(audioworker.AudioWorker):
 
     def record(self):
         self._aud_buf = array.array('h')
+        self._is_empty = True
         self._chunk_cnt = 0
         self._chunk_ptr = 0
         self._state = LOOPER_RECORD
@@ -51,3 +54,8 @@ class Looper(audioworker.AudioWorker):
 
     def play(self):
         self._state = LOOPER_PLAY
+
+    def getposition(self):
+        if self._is_empty:
+            return 0
+        return self._chunk_ptr/self._chunk_cnt

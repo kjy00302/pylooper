@@ -38,3 +38,6 @@ class GUI(GUIBase):
 
     def cb_overdub(self):
         raise NotImplementedError
+
+    def cb_getposition(self):
+        raise NotImplementedError
