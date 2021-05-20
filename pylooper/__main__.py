@@ -18,9 +18,11 @@ class GUI(GUI):
         return looper.getposition()
 
 if __name__ == "__main__":
-    GUI.gui_init()
-
     looper = Looper()
+    if not looper.aw_init():
+        quit(1)
+
+    GUI.gui_init()
     gui = GUI()
 
     looper.aw_start()
