@@ -48,10 +48,6 @@ class GUI(GUIBase):
             pygame.draw.circle(surface, "#00ff00", (75,75),50)
             pygame.draw.polygon(surface, "#ff0000", ((50,50), (50,100), (105,75)))
 
-
-
-
-       
     def cb_stop(self):
         raise NotImplementedError
 
