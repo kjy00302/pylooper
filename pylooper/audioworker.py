@@ -22,7 +22,7 @@ class AudioWorker:
             import traceback
             print(traceback.format_exc())
             if e.errno == -9996:
-                print("Check your audio device")
+                print("Check your audio devices")
             return False
         self.chunk_latency = int(
             self._samplerate * (
