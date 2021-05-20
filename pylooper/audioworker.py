@@ -19,7 +19,8 @@ class AudioWorker:
             )
         except Exception as e:
             print("Failed to open audio stream")
-            print("Error:",type(e), e)
+            import traceback
+            print(traceback.format_exc())
             if e.errno == -9996:
                 print("Check your audio device")
             return False
