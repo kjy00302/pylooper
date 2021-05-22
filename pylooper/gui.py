@@ -16,10 +16,10 @@ class GUI(GUIBase):
                 self.flag = 'stop'
             elif event.key == pygame.locals.K_2:
                 self.cb_rec()
-                self.flag = 'play'
+                self.flag = 'record'
             elif event.key == pygame.locals.K_3:
                 self.cb_play()
-                self.flag = 'record'
+                self.flag = 'play'
             elif event.key == pygame.locals.K_4:
                 self.cb_overdub()
                 self.flag = 'overdub'
