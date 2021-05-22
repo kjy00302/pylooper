@@ -36,22 +36,27 @@ class GUI(GUIBase):
             "#0000ff",
             (0,0,150 * self.cb_getposition(),150))
         if self.flag == 'stop':
-            pygame.draw.rect(surface, "#000000", (50,50, 50, 50))
+            self._draw_rec_icon(surface)
 
         if self.flag == 'play':
-            pygame.draw.polygon(surface, "#00ff00", ((50,50), (50,100), (105,75)))
+            self._draw_play_icon(surface)
 
         if self.flag == 'record':
-            pygame.draw.circle(surface, "#ff0000", (75,75),50)
+            self._draw_rec_icon(surface)
 
         if self.flag == 'overdub':
-            pygame.draw.circle(surface, "#00ff00", (75,75),50)
-            pygame.draw.polygon(surface, "#ff0000", ((50,50), (50,100), (105,75)))
+            self._draw_rec_icon(surface)
+            self._draw_play_icon(surface)
 
+    def _draw_stop_icon(self, surface):
+        pygame.draw.rect(surface, "#000000", (50,50, 50, 50))
 
+    def _draw_rec_icon(self, surface):
+        pygame.draw.circle(surface, "#ff0000", (75,75),50)
 
+    def _draw_play_icon(self, surface):
+        pygame.draw.polygon(surface, "#00ff00", ((50,50), (50,100), (105,75)))
 
-       
     def cb_stop(self):
         raise NotImplementedError
 
