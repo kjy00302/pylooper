@@ -36,7 +36,7 @@ class GUI(GUIBase):
             "#0000ff",
             (0,0,150 * self.cb_getposition(),150))
         if self.flag == 'stop':
-            self._draw_rec_icon(surface)
+            self._draw_stop_icon(surface)
 
         if self.flag == 'play':
             self._draw_play_icon(surface)
