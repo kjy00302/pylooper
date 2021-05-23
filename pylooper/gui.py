@@ -31,10 +31,7 @@ class GUI(GUIBase):
 
     def gui_draw(self, surface):
         surface.fill((255,255,255))
-        pygame.draw.rect(
-            surface,
-            "#0000ff",
-            (0,0,150 * self.cb_getposition(),150))
+        self._draw_loop_pos(surface)
         if self.flag == 'stop':
             self._draw_stop_icon(surface)
 
@@ -47,6 +44,13 @@ class GUI(GUIBase):
         if self.flag == 'overdub':
             self._draw_rec_icon(surface)
             self._draw_play_icon(surface)
+
+    def _draw_loop_pos(self, surface):
+        pygame.draw.rect(
+            surface,
+            "#0000ff",
+            (0,0,150 * self.cb_getposition(),150)
+        )
 
     def _draw_stop_icon(self, surface):
         pygame.draw.rect(surface, "#000000", (50,50, 50, 50))
