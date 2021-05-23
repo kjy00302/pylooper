@@ -43,10 +43,6 @@ class Looper(audioworker.AudioWorker):
         self._state = LOOPER_STOP
 
     def record(self):
-        self._aud_buf = array.array('h')
-        self._is_empty = True
-        self._chunk_cnt = 0
-        self._chunk_ptr = 0
         self._state = LOOPER_RECORD
 
     def overrec(self):
@@ -54,6 +50,12 @@ class Looper(audioworker.AudioWorker):
 
     def play(self):
         self._state = LOOPER_PLAY
+
+    def reset(self):
+        self._aud_buf = array.array('h')
+        self._is_empty = True
+        self._chunk_cnt = 0
+        self._chunk_ptr = 0
 
     def getposition(self):
         if self._is_empty:
