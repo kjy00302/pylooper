@@ -3,20 +3,23 @@ import pygame
 import pygame.locals
 
 class GUI(GUIBase):
-    def __init__(self):
+    def __init__(self, keymaps):
         super().__init__((100,100))
+        self.keymaps = {}
+        for k, v in keymaps.items():
+            self.keymaps[k] = getattr(pygame.locals, v)
 
     def gui_event(self, event):
         if event.type == pygame.locals.QUIT:
             self.gui_running = False
         elif event.type == pygame.locals.KEYDOWN:
-            if event.key == pygame.locals.K_1:
+            if event.key == self.keymaps['key_stop']:
                 self.cb_stop()
-            elif event.key == pygame.locals.K_2:
+            elif event.key == self.keymaps['key_record']:
                 self.cb_rec()
-            elif event.key == pygame.locals.K_3:
+            elif event.key == self.keymaps['key_play']:
                 self.cb_play()
-            elif event.key == pygame.locals.K_4:
+            elif event.key == self.keymaps['key_overdub']:
                 self.cb_overdub()
             elif event.key == pygame.locals.K_ESCAPE:
                 self.gui_running = False

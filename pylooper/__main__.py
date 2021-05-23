@@ -1,5 +1,6 @@
 from .aw_looper import Looper
 from .gui import GUI
+from .configuration import config_read
 
 class GUI(GUI):
     def cb_stop(self):
@@ -18,10 +19,11 @@ class GUI(GUI):
         return looper.getposition()
 
 if __name__ == "__main__":
+    conf = config_read()
     GUI.gui_init()
 
-    looper = Looper()
-    gui = GUI()
+    looper = Looper(conf['Audio'])
+    gui = GUI(conf['Keymaps'])
 
     looper.aw_start()
     gui.gui_run()

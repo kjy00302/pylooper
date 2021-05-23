@@ -9,8 +9,8 @@ LOOPER_PLAY = 2
 LOOPER_OVERDUB = 3
 
 class Looper(audioworker.AudioWorker):
-    def __init__(self):
-        super().__init__(48000)
+    def __init__(self, audioconf):
+        super().__init__(audioconf.getint('samplerate'))
         self._state = LOOPER_STOP
         self._aud_buf = array.array('h')
         self._chunk_cnt = 0
