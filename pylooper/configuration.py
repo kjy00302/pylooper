@@ -7,9 +7,7 @@ DEFAULT ={
     },
     'Keymaps': {
         'key_stop' : 'K_1',
-        'key_record' : 'K_2',
-        'key_play' : 'K_3',
-        'key_overdub' : 'K_4'
+        'key_next' : 'K_2',
     }
 }
 

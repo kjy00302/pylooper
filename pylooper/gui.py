@@ -6,6 +6,7 @@ class GUI(GUIBase):
     def __init__(self, keymaps):
         super().__init__((150,150))
         self.flag = 'stop'
+        self._is_empty = True
         self.keymaps = {}
         for k, v in keymaps.items():
             self.keymaps[k] = getattr(pygame.locals, v)
@@ -15,17 +16,29 @@ class GUI(GUIBase):
             self.gui_running = False
         elif event.type == pygame.locals.KEYDOWN:
             if event.key == self.keymaps['key_stop']:
-                self.cb_stop()
-                self.flag = 'stop'
-            elif event.key == self.keymaps['key_record']:
-                self.cb_rec()
-                self.flag = 'record'
-            elif event.key == self.keymaps['key_play']:
-                self.cb_play()
-                self.flag='play'
-            elif event.key == self.keymaps['key_overdub']:
-                self.cb_overdub()
-                self.flag = 'overdub'
+                if self.flag == 'stop':
+                    self._is_empty = True
+                    self.cb_reset()
+                else:
+                    self.flag = 'stop'
+                    self.cb_stop()
+            elif event.key == self.keymaps['key_next']:
+                if self._is_empty:
+                    self._is_empty = False
+                    self.flag = 'record'
+                    self.cb_rec()
+                elif self.flag == 'record':
+                    self.flag = 'play'
+                    self.cb_play()
+                elif self.flag == 'play':
+                    self.flag = 'overdub'
+                    self.cb_overdub()
+                elif self.flag == 'overdub':
+                    self.flag = 'play'
+                    self.cb_play()
+                elif self.flag == 'stop':
+                    self.flag = 'play'
+                    self.cb_play()
             elif event.key == pygame.locals.K_ESCAPE:
                 self.gui_running = False
 
@@ -74,6 +87,9 @@ class GUI(GUIBase):
         raise NotImplementedError
 
     def cb_overdub(self):
+        raise NotImplementedError
+
+    def cb_reset(self):
         raise NotImplementedError
 
     def cb_getposition(self):
